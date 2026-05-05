@@ -81,7 +81,7 @@
     const DATA_JSON_URL = "data.json";
     let studentsList = [];
 
-    // Helper: konversi nilai ke string untuk toLowerCase
+    // Helper: konversi ke string aman
     function toSafeString(val) {
         if (val === undefined || val === null) return '';
         return String(val);
@@ -97,15 +97,12 @@
             if (!Array.isArray(data) || data.length === 0) throw new Error("Data kosong");
             
             studentsList = data.map((item, idx) => {
-                // Ambil nama dan nis (case insensitive)
                 const nama = item.nama || item.Nama || item.name || item.NAMA || "";
                 let nis = item.nis || item.NIS || item.nomor_induk || item.NomorInduk || "";
-                // Pastikan nis berupa string
                 nis = toSafeString(nis);
                 const linkSurat = item.link_surat || item.linkSurat || item.Link_Surat || item.surat || "";
                 const foto = item.foto || item.Foto || item.photo || item.PHOTO || "";
                 
-                // Nilai pelajaran: semua field selain nama, nis, link, foto
                 const nilai = {};
                 for (let key in item) {
                     const lowerKey = key.toLowerCase();
@@ -191,7 +188,7 @@
             document.getElementById('resultsArea').innerHTML = `<div class="empty-message">Data belum tersedia. Muat ulang halaman.</div>`;
             return;
         }
-        // Pastikan setiap siswa memiliki nama dan nis string
+        // Filter dengan konversi aman ke string
         const filtered = studentsList.filter(s => {
             const namaLower = toSafeString(s.nama).toLowerCase();
             const nisLower = toSafeString(s.nis).toLowerCase();
@@ -273,7 +270,6 @@
     document.getElementById('closeModalBtn').addEventListener('click', closeModal);
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 
-    // Mulai
     loadData();
 </script>
 </body>
