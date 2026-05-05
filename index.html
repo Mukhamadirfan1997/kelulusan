@@ -34,13 +34,16 @@
         .empty-message { background: #f8fafc; text-align: center; padding: 2rem; border-radius: 48px; color: #2c6e9e; border: 1px dashed #c8e0d4; }
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; visibility: hidden; opacity: 0; transition: 0.2s; z-index: 1000; }
         .modal-overlay.active { visibility: visible; opacity: 1; }
-        .modal-container { background: white; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; border-radius: 2rem; padding: 1.5rem; border-top: 6px solid #2a7a3e; position: relative; }
+        .modal-container { background: white; max-width: 750px; width: 90%; max-height: 85vh; overflow-y: auto; border-radius: 2rem; padding: 1.8rem; border-top: 6px solid #2a7a3e; position: relative; }
         .modal-close { position: absolute; right: 1.2rem; top: 1rem; font-size: 1.8rem; cursor: pointer; color: #888; }
-        .modal-header { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+        .modal-header { display: flex; gap: 1rem; align-items: center; margin-bottom: 1.2rem; }
         .modal-photo { width: 80px; height: 80px; border-radius: 50%; background: #e2edf7; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; overflow: hidden; }
         .nilai-table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: #f9fbfd; border-radius: 16px; overflow: hidden; }
         .nilai-table th, .nilai-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e2edf2; }
         .nilai-table th { background: #eef3fc; font-weight: 600; }
+        .surat-keterangan { background: #fef9e3; border-left: 4px solid #f59e0b; padding: 1rem; margin: 1rem 0; border-radius: 16px; font-size: 0.9rem; line-height: 1.5; }
+        .surat-keterangan p { margin-bottom: 0.5rem; }
+        .surat-keterangan .status-lulus { font-weight: 700; color: #15803d; font-size: 1.1rem; margin-top: 0.5rem; }
         .download-gdrive { display: inline-block; background: #2c6e9e; color: white; padding: 0.6rem 1.2rem; border-radius: 40px; text-decoration: none; margin-top: 1rem; font-weight: 600; }
         footer { margin-top: 3rem; text-align: center; border-top: 1px solid #c8e0d4; padding-top: 2rem; font-size: 0.75rem; color: #4b7b5e; }
         @media (max-width: 640px) { body { padding: 1rem; } .search-wrapper { flex-direction: column; } }
@@ -102,22 +105,17 @@
                 const linkSurat = item.link_surat || item.linkSurat || item.Link_Surat || item.surat || "";
                 const foto = item.foto || item.Foto || item.photo || item.PHOTO || "";
                 
-                // Ambil nilai hanya jika ada angka (kosong atau teks diabaikan)
                 const nilai = {};
                 for (let key in item) {
                     const lowerKey = key.toLowerCase();
                     if (!['nama', 'nis', 'link_surat', 'linksurat', 'foto', 'photo', 'name', 'nomor_induk', 'surat'].includes(lowerKey)) {
                         let val = item[key];
-                        // Jika val adalah string kosong, null, undefined, lewati
                         if (val !== undefined && val !== null && val !== "") {
                             let num = parseFloat(val);
-                            if (!isNaN(num)) {
-                                nilai[key] = num;
-                            }
+                            if (!isNaN(num)) nilai[key] = num;
                         }
                     }
                 }
-                // Tidak memberikan nilai default 75 lagi, biarkan kosong jika tidak ada data nilai
                 return { id: idx, nama: toSafeString(nama), nis, nilai, linkSurat, foto };
             }).filter(s => s.nama && s.nis);
             
@@ -223,9 +221,21 @@
             }
         }
         
+        // Surat keterangan lulus
+        const suratHtml = `
+            <div class="surat-keterangan">
+                <p><strong>Yang bertanda tangan di bawah ini Kepala Sekolah Dasar Negeri Toyaning I Kecamatan Rejoso Kabupaten Pasuruan menerangkan bahwa :</strong></p>
+                <p>Nama &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${escapeHtml(student.nama)}</p>
+                <p>NISN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : ${escapeHtml(student.nis)}</p>
+                <p>Berdasarkan hasil pertimbangan serta dengan memperhatikan kriteria kelulusan Tahun Pelajaran 2025/2026 dinyatakan :</p>
+                <div class="status-lulus">🎓 LULUS</div>
+                <p>Dan berhak untuk mendapatkan Ijazah atau Surat Tanda Tamat Belajar (STTB) serta Surat Keterangan Hasil Ujian Nasional (SKHUN).</p>
+            </div>
+        `;
+        
         const link = student.linkSurat && student.linkSurat.trim() ? student.linkSurat : '#';
         const downloadBtn = link !== '#' 
-            ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer" class="download-gdrive"><i class="fab fa-google-drive"></i> Download Surat Kelulusan</a>`
+            ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer" class="download-gdrive"><i class="fab fa-google-drive"></i> Download Surat Kelulusan (PDF)</a>`
             : `<div class="download-gdrive" style="background:gray; cursor:default;">Link surat tidak tersedia</div>`;
         
         const fotoUrl = student.foto && student.foto.trim() ? student.foto : null;
@@ -250,9 +260,10 @@
                 </thead>
                 <tbody>${nilaiRows}</tbody>
             </table>
-            <div style="margin-top: 20px;">
+            ${suratHtml}
+            <div style="margin-top: 20px; text-align: center;">
                 ${downloadBtn}
-                <div style="font-size:0.7rem; margin-top: 8px;"><i class="fas fa-envelope"></i> Surat resmi diunduh melalui tautan Google Drive.</div>
+                <div style="font-size:0.7rem; margin-top: 8px;"><i class="fas fa-envelope"></i> Surat resmi dapat diunduh melalui tautan di atas.</div>
             </div>
         `;
         modal.classList.add('active');
