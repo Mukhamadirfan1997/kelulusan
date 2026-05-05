@@ -1,591 +1,237 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelulusan Kelas 6 - SDN Toyaning I Rejoso</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Inter", sans-serif;
-        background: linear-gradient(145deg, #e8f2f7 0%, #d9e6e1 100%);
-        color: #1e293b;
-        padding: 2rem 1.5rem;
-      }
-      .container {
-        max-width: 1300px;
-        margin: 0 auto;
-      }
-      .header {
-        text-align: center;
-        margin-bottom: 2rem;
-      }
-      .school-badge {
-        background: white;
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        padding: 0.6rem 1.8rem;
-        border-radius: 80px;
-        margin-bottom: 1.5rem;
-        border: 1px solid #cbdff2;
-      }
-      .school-badge i {
-        font-size: 2rem;
-        color: #2c6e9e;
-      }
-      .school-badge span {
-        font-weight: 700;
-        color: #0f2b4d;
-      }
-      h1 {
-        font-size: 2.3rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #1e3c72, #2a7a3e);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
-      }
-      .search-section {
-        background: white;
-        border-radius: 40px;
-        padding: 1.5rem 2rem;
-        margin-bottom: 2rem;
-        border: 1px solid #c8e0d4;
-      }
-      .search-wrapper {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        align-items: flex-end;
-      }
-      .search-box {
-        flex: 3;
-      }
-      .search-box label {
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: #2c6e9e;
-      }
-      .search-box input {
-        width: 100%;
-        padding: 0.8rem 1.2rem;
-        border: 1.5px solid #c8e0d4;
-        border-radius: 60px;
-        font-size: 0.9rem;
-      }
-      .btn-cari {
-        background: #2a7a3e;
-        color: white;
-        border: none;
-        padding: 0.8rem 1.8rem;
-        border-radius: 60px;
-        font-weight: 600;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .btn-cari:hover {
-        background: #1f5f30;
-        transform: translateY(-2px);
-      }
-      .btn-reset {
-        background: #f1f5f9;
-        color: #1e4780;
-        border: 1px solid #cbd5e1;
-      }
-      .students-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.8rem;
-        margin-top: 1rem;
-      }
-      .student-card {
-        background: white;
-        border-radius: 28px;
-        padding: 1.3rem;
-        cursor: pointer;
-        transition: 0.2s;
-        border: 1px solid #c8e0d4;
-      }
-      .student-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.1);
-      }
-      .card-photo {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        background: #e6f0ea;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: #2c6e9e;
-        margin-bottom: 1rem;
-        overflow: hidden;
-      }
-      .card-photo img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      .card-name {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #0f2b4d;
-      }
-      .lulus-badge {
-        background: #dcfce7;
-        color: #15803d;
-        display: inline-block;
-        padding: 0.2rem 1rem;
-        border-radius: 40px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        margin-top: 0.5rem;
-      }
-      .empty-message {
-        background: #f8fafc;
-        text-align: center;
-        padding: 2rem;
-        border-radius: 48px;
-        color: #2c6e9e;
-        border: 1px dashed #c8e0d4;
-      }
-      .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(4px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        visibility: hidden;
-        opacity: 0;
-        transition: 0.2s;
-        z-index: 1000;
-      }
-      .modal-overlay.active {
-        visibility: visible;
-        opacity: 1;
-      }
-      .modal-container {
-        background: white;
-        max-width: 700px;
-        width: 90%;
-        max-height: 85vh;
-        overflow-y: auto;
-        border-radius: 2rem;
-        padding: 1.5rem;
-        border-top: 6px solid #2a7a3e;
-        position: relative;
-      }
-      .modal-close {
-        position: absolute;
-        right: 1.2rem;
-        top: 1rem;
-        font-size: 1.8rem;
-        cursor: pointer;
-        color: #888;
-      }
-      .modal-header {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        margin-bottom: 1rem;
-      }
-      .modal-photo {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background: #e2edf7;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        font-weight: bold;
-        overflow: hidden;
-      }
-      .nilai-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 1rem 0;
-      }
-      .nilai-table th,
-      .nilai-table td {
-        padding: 8px 12px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-      }
-      .download-gdrive {
-        display: inline-block;
-        background: #2c6e9e;
-        color: white;
-        padding: 0.6rem 1.2rem;
-        border-radius: 40px;
-        text-decoration: none;
-        margin-top: 1rem;
-        font-weight: 600;
-      }
-      footer {
-        margin-top: 3rem;
-        text-align: center;
-        border-top: 1px solid #c8e0d4;
-        padding-top: 2rem;
-        font-size: 0.75rem;
-      }
-      @media (max-width: 640px) {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-          padding: 1rem;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #e8f2f7 0%, #d9e6e1 100%);
+            color: #1e293b;
+            padding: 2rem 1.5rem;
+        }
+        .container { max-width: 1300px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .school-badge {
+            background: white; display: inline-flex; align-items: center; gap: 12px;
+            padding: 0.6rem 1.8rem; border-radius: 80px; margin-bottom: 1.5rem;
+            border: 1px solid #cbdff2;
+        }
+        .school-badge i { font-size: 2rem; color: #2c6e9e; }
+        .school-badge span { font-weight: 700; color: #0f2b4d; }
+        h1 {
+            font-size: 2.3rem; font-weight: 800;
+            background: linear-gradient(135deg, #1e3c72, #2a7a3e);
+            background-clip: text; -webkit-background-clip: text; color: transparent;
+        }
+        .search-section {
+            background: white; border-radius: 40px; padding: 1.5rem 2rem;
+            margin-bottom: 2rem; border: 1px solid #c8e0d4;
         }
         .search-wrapper {
-          flex-direction: column;
+            display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end;
         }
-      }
+        .search-box { flex: 3; }
+        .search-box label { font-size: 0.75rem; font-weight: 600; color: #2c6e9e; }
+        .search-box input {
+            width: 100%; padding: 0.8rem 1.2rem; border: 1.5px solid #c8e0d4;
+            border-radius: 60px; font-size: 0.9rem;
+        }
+        .btn-cari {
+            background: #2a7a3e; color: white; border: none; padding: 0.8rem 1.8rem;
+            border-radius: 60px; font-weight: 600; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-cari:hover { background: #1f5f30; transform: translateY(-2px); }
+        .btn-reset { background: #f1f5f9; color: #1e4780; border: 1px solid #cbd5e1; }
+        .students-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem; margin-top: 1rem;
+        }
+        .student-card {
+            background: white; border-radius: 28px; padding: 1.3rem;
+            cursor: pointer; transition: 0.2s; border: 1px solid #c8e0d4;
+        }
+        .student-card:hover { transform: translateY(-5px); box-shadow: 0 12px 20px -10px rgba(0,0,0,0.1); }
+        .card-photo {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: #e6f0ea; display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; font-weight: 700; color: #2c6e9e; margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .card-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .card-name { font-size: 1.3rem; font-weight: 700; color: #0f2b4d; }
+        .lulus-badge {
+            background: #dcfce7; color: #15803d; display: inline-block;
+            padding: 0.2rem 1rem; border-radius: 40px; font-size: 0.7rem; font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        .empty-message {
+            background: #f8fafc; text-align: center; padding: 2rem;
+            border-radius: 48px; color: #2c6e9e; border: 1px dashed #c8e0d4;
+        }
+        .modal-overlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center;
+            visibility: hidden; opacity: 0; transition: 0.2s; z-index: 1000;
+        }
+        .modal-overlay.active { visibility: visible; opacity: 1; }
+        .modal-container {
+            background: white; max-width: 700px; width: 90%; max-height: 85vh;
+            overflow-y: auto; border-radius: 2rem; padding: 1.5rem;
+            border-top: 6px solid #2a7a3e; position: relative;
+        }
+        .modal-close {
+            position: absolute; right: 1.2rem; top: 1rem; font-size: 1.8rem;
+            cursor: pointer; color: #888;
+        }
+        .modal-header { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+        .modal-photo {
+            width: 80px; height: 80px; border-radius: 50%; background: #e2edf7;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: bold; overflow: hidden;
+        }
+        .nilai-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .nilai-table th, .nilai-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        .download-gdrive {
+            display: inline-block; background: #2c6e9e; color: white;
+            padding: 0.6rem 1.2rem; border-radius: 40px; text-decoration: none;
+            margin-top: 1rem; font-weight: 600;
+        }
+        footer { margin-top: 3rem; text-align: center; border-top: 1px solid #c8e0d4; padding-top: 2rem; font-size: 0.75rem; }
+        @media (max-width: 640px) { body { padding: 1rem; } .search-wrapper { flex-direction: column; } }
+        .info-banner {
+            background: #e0f2fe; padding: 12px 16px; border-radius: 30px; margin-top: 12px;
+            font-size: 0.8rem; text-align: center; color: #0369a1;
+        }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-        <div class="school-badge">
-          <i class="fas fa-school"></i><span>SDN TOYANING I REJOSO</span>
-        </div>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="school-badge"><i class="fas fa-school"></i><span>SDN TOYANING I REJOSO</span></div>
         <h1>Pengumuman Kelulusan</h1>
         <div class="subtitle">Tahun Pelajaran 2024/2025 | Kelas VI</div>
-      </div>
-
-      <div class="search-section">
-        <div class="search-wrapper">
-          <div class="search-box">
-            <label><i class="fas fa-user-search"></i> Cari Nama atau NIS</label>
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Contoh: Ahmad, 12345"
-              autocomplete="off"
-            />
-          </div>
-          <button id="searchBtn" class="btn-cari">
-            <i class="fas fa-search"></i> Cari
-          </button>
-          <button id="resetBtn" class="btn-cari btn-reset">
-            <i class="fas fa-undo-alt"></i> Reset
-          </button>
-        </div>
-        <div style="margin-top: 12px; font-size: 12px; color: #4b7b5e">
-          🔍 Data diambil langsung dari Google Spreadsheet via proxy. Jika
-          gagal, gunakan data contoh.
-        </div>
-      </div>
-
-      <div id="resultsArea">
-        <div class="empty-message">
-          <i class="fas fa-spinner fa-pulse"></i> Memuat data...
-        </div>
-      </div>
-
-      <footer>Data kelulusan resmi SDN Toyaning I Rejoso</footer>
     </div>
 
-    <div id="detailModal" class="modal-overlay">
-      <div class="modal-container">
+    <div class="search-section">
+        <div class="search-wrapper">
+            <div class="search-box">
+                <label><i class="fas fa-user-search"></i> Cari Nama atau NIS</label>
+                <input type="text" id="searchInput" placeholder="Contoh: Ahmad, 12345" autocomplete="off">
+            </div>
+            <button id="searchBtn" class="btn-cari"><i class="fas fa-search"></i> Cari</button>
+            <button id="resetBtn" class="btn-cari btn-reset"><i class="fas fa-undo-alt"></i> Reset</button>
+        </div>
+        <div class="info-banner">
+            <i class="fas fa-database"></i> Data kelulusan diperbarui secara berkala.
+        </div>
+    </div>
+
+    <div id="resultsArea">
+        <div class="empty-message"><i class="fas fa-spinner fa-pulse"></i> Memuat data kelulusan...</div>
+    </div>
+
+    <footer>Data kelulusan resmi SDN Toyaning I Rejoso</footer>
+</div>
+
+<div id="detailModal" class="modal-overlay">
+    <div class="modal-container">
         <div class="modal-close" id="closeModalBtn">&times;</div>
         <div id="modalContent"></div>
-      </div>
     </div>
+</div>
 
-    <script>
-      // URL CSV yang benar (pastikan sudah dipublikasikan)
-      const CSV_URL =
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vRsFesapzaEqBO-K_ppDrKDgFgDfaxNemWsmmxPRNEP6lovc6iqPzmU76ngd2Wf3xuG0CA7FXeSlrjh/pub?gid=0&single=true&output=csv";
-
-      // Daftar proxy CORS (coba satu per satu)
-      const PROXIES = [
-        "https://api.allorigins.win/raw?url=",
-        "https://corsproxy.io/?",
-        "https://cors-anywhere.herokuapp.com/",
-      ];
-
-      let studentsList = [];
-      let currentProxyIndex = 0;
-
-      // Fungsi parsing CSV (sama seperti sebelumnya)
-      function parseCSVRow(rowStr) {
-        const result = [];
-        let inQuote = false,
-          current = "";
-        for (let ch of rowStr) {
-          if (ch === '"') inQuote = !inQuote;
-          else if (ch === "," && !inQuote) {
-            result.push(current);
-            current = "";
-          } else current += ch;
-        }
-        result.push(current);
-        return result.map((v) => v.replace(/^"|"$/g, "").trim());
-      }
-
-      function parseCSVToStudents(csvText) {
-        const lines = csvText.split(/\r?\n/).filter((l) => l.trim().length > 0);
-        if (lines.length < 2) throw new Error("CSV kosong");
-        const headers = lines[0]
-          .split(",")
-          .map((h) => h.trim().replace(/^"|"$/g, "").toLowerCase());
-        const nameCol = headers.find((h) => h.includes("nama") || h === "name");
-        const nisCol = headers.find((h) => h.includes("nis"));
-        const linkCol = headers.find(
-          (h) => h.includes("link") || h.includes("surat"),
-        );
-        const fotoCol = headers.find(
-          (h) => h.includes("foto") || h === "photo",
-        );
-        if (!nameCol || !nisCol)
-          throw new Error("Kolom Nama/NIS tidak ditemukan");
-        const exclude = [nameCol, nisCol, linkCol, fotoCol].filter(Boolean);
-        const nilaiCols = headers.filter((h) => !exclude.includes(h));
-        const students = [];
-        for (let i = 1; i < lines.length; i++) {
-          const values = parseCSVRow(lines[i]);
-          if (values.length < headers.length) continue;
-          const row = {};
-          headers.forEach((h, idx) => (row[h] = values[idx] || ""));
-          const nama = row[nameCol];
-          const nis = row[nisCol];
-          if (!nama || !nis) continue;
-          const nilai = {};
-          for (let col of nilaiCols) {
-            let val = parseFloat(row[col]);
-            if (isNaN(val)) val = 0;
-            let subject = col
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (l) => l.toUpperCase());
-            nilai[subject] = val;
-          }
-          if (Object.keys(nilai).length === 0) {
-            [
-              "Matematika",
-              "Bahasa Indonesia",
-              "IPA",
-              "IPS",
-              "Pend. Agama",
-              "SBdP",
-            ].forEach((m) => (nilai[m] = 75));
-          }
-          students.push({
-            id: i,
-            nama: nama,
-            nis: nis,
-            nilai: nilai,
-            linkSurat: linkCol ? row[linkCol] : "",
-            foto: fotoCol ? row[fotoCol] : "",
-          });
-        }
-        if (students.length === 0) throw new Error("Tidak ada data siswa");
-        return students;
-      }
-
-      async function loadWithProxy(proxyUrl) {
-        const targetUrl = proxyUrl + encodeURIComponent(CSV_URL);
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 15000); // timeout 15 detik
+<script>
+    // ======================= KONFIGURASI =======================
+    // Gunakan file JSON statis (anda buat dari CSV spreadsheet)
+    // Cara: buka spreadsheet, File -> Download -> CSV, lalu konversi ke JSON (gunakan tool online)
+    // Simpan file sebagai "data.json" di folder yang sama dengan index.html
+    const DATA_JSON_URL = "data.json";  // file JSON lokal di hosting
+    
+    let studentsList = [];
+    
+    async function loadData() {
+        const resultsDiv = document.getElementById('resultsArea');
+        resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-spinner fa-pulse"></i> Mengambil data kelulusan...</div>`;
         try {
-          const response = await fetch(targetUrl, {
-            signal: controller.signal,
-          });
-          clearTimeout(timeoutId);
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          const csvText = await response.text();
-          return parseCSVToStudents(csvText);
+            const response = await fetch(DATA_JSON_URL);
+            if (!response.ok) throw new Error(`HTTP ${response.status} - file data.json tidak ditemukan`);
+            const data = await response.json();
+            
+            // Transformasi data dari JSON ke format internal
+            if (!Array.isArray(data) || data.length === 0) throw new Error("Data kosong");
+            
+            studentsList = data.map((item, idx) => {
+                // Deteksi kolom nama (case insensitive)
+                const nama = item.nama || item.Nama || item.name || item.NAMA || "";
+                const nis = item.nis || item.NIS || item.nomor_induk || item.NomorInduk || "";
+                const linkSurat = item.link_surat || item.linkSurat || item.Link_Surat || item.surat || "";
+                const foto = item.foto || item.Foto || item.photo || item.PHOTO || "";
+                
+                // Kolom nilai: semua kecuali yang sudah ditentukan
+                const nilai = {};
+                for (let key in item) {
+                    const lowerKey = key.toLowerCase();
+                    if (!['nama', 'nis', 'link_surat', 'linksurat', 'foto', 'photo', 'name', 'nomor_induk', 'surat'].includes(lowerKey)) {
+                        let val = parseFloat(item[key]);
+                        if (!isNaN(val)) nilai[key] = val;
+                    }
+                }
+                if (Object.keys(nilai).length === 0) {
+                    nilai["Matematika"] = 75;
+                    nilai["Bahasa Indonesia"] = 75;
+                    nilai["IPA"] = 75;
+                    nilai["IPS"] = 75;
+                    nilai["Pend. Agama"] = 75;
+                    nilai["SBdP"] = 75;
+                }
+                return { id: idx, nama, nis, nilai, linkSurat, foto };
+            }).filter(s => s.nama && s.nis);
+            
+            if (studentsList.length === 0) throw new Error("Tidak ada data siswa valid");
+            
+            resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-check-circle"></i> ✅ ${studentsList.length} siswa lulus. Gunakan pencarian di atas.</div>`;
         } catch (err) {
-          clearTimeout(timeoutId);
-          throw err;
+            console.error("Gagal load data.json:", err);
+            resultsDiv.innerHTML = `<div class="empty-message">
+                <i class="fas fa-exclamation-triangle"></i> Gagal memuat data: ${err.message}<br><br>
+                <strong>📌 Petunjuk:</strong> Buat file <code>data.json</code> dari spreadsheet Anda.<br>
+                Cara: Buka spreadsheet → File → Download → CSV → lalu konversi CSV ke JSON (gunakan <a href="https://csvjson.com/" target="_blank">csvjson.com</a>)<br>
+                Simpan hasilnya sebagai <code>data.json</code> di folder yang sama dengan halaman ini.
+            </div>`;
+            studentsList = [];
         }
-      }
-
-      async function loadData() {
-        const resultsDiv = document.getElementById("resultsArea");
-        resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-spinner fa-pulse"></i> Mengambil data (percobaan ${currentProxyIndex + 1}/${PROXIES.length})...</div>`;
-
-        for (let i = 0; i < PROXIES.length; i++) {
-          try {
-            studentsList = await loadWithProxy(PROXIES[i]);
-            resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-check-circle"></i> ✅ ${studentsList.length} siswa lulus. Silakan cari nama/NIS.</div>`;
-            return;
-          } catch (err) {
-            console.warn(`Proxy ${PROXIES[i]} gagal:`, err);
-            resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-spinner fa-pulse"></i> Proxy ${i + 1} gagal, mencoba berikutnya...</div>`;
-          }
-        }
-        // Jika semua proxy gagal, gunakan data dummy
-        resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-exclamation-triangle"></i> Gagal mengambil data online. Menggunakan data contoh (dummy).</div>`;
-        // Data dummy (8 siswa)
-        studentsList = [
-          {
-            id: 1,
-            nama: "Ahmad Fauzan",
-            nis: "12345-001",
-            foto: "https://randomuser.me/api/portraits/men/1.jpg",
-            linkSurat: "#",
-            nilai: {
-              Matematika: 88,
-              "Bahasa Indonesia": 85,
-              IPA: 90,
-              IPS: 78,
-              "Pend. Agama": 92,
-              SBdP: 86,
-            },
-          },
-          {
-            id: 2,
-            nama: "Siti Nurhaliza",
-            nis: "12345-002",
-            foto: "https://randomuser.me/api/portraits/women/2.jpg",
-            linkSurat: "#",
-            nilai: {
-              Matematika: 95,
-              "Bahasa Indonesia": 91,
-              IPA: 94,
-              IPS: 88,
-              "Pend. Agama": 96,
-              SBdP: 90,
-            },
-          },
-          {
-            id: 3,
-            nama: "M. Rafa Alvaro",
-            nis: "12345-003",
-            foto: "https://randomuser.me/api/portraits/men/3.jpg",
-            linkSurat: "#",
-            nilai: {
-              Matematika: 82,
-              "Bahasa Indonesia": 78,
-              IPA: 85,
-              IPS: 80,
-              "Pend. Agama": 88,
-              SBdP: 84,
-            },
-          },
-          {
-            id: 4,
-            nama: "Nadia Kirana",
-            nis: "12345-004",
-            foto: "https://randomuser.me/api/portraits/women/4.jpg",
-            linkSurat: "#",
-            nilai: {
-              Matematika: 91,
-              "Bahasa Indonesia": 89,
-              IPA: 93,
-              IPS: 86,
-              "Pend. Agama": 94,
-              SBdP: 88,
-            },
-          },
-          {
-            id: 5,
-            nama: "Bintang Pratama",
-            nis: "12345-005",
-            foto: "https://randomuser.me/api/portraits/men/5.jpg",
-            linkSurat: "#",
-            nilai: {
-              Matematika: 78,
-              "Bahasa Indonesia": 80,
-              IPA: 79,
-              IPS: 83,
-              "Pend. Agama": 85,
-              SBdP: 81,
-            },
-          },
-          {
-            id: 6,
-            nama: "Clara Maharani",
-            nis: "12345-006",
-            foto: "https://randomuser.me/api/portraits/women/6.jpg",
-            linkSurat: "#",
-            nilai: {
-              Matematika: 97,
-              "Bahasa Indonesia": 94,
-              IPA: 96,
-              IPS: 92,
-              "Pend. Agama": 98,
-              SBdP: 95,
-            },
-          },
-          {
-            id: 7,
-            nama: "Dimas Arya",
-            nis: "12345-007",
-            foto: "https://randomuser.me/api/portraits/men/7.jpg",
-            linkSurat: "#",
-            nilai: {
-              Matematika: 85,
-              "Bahasa Indonesia": 83,
-              IPA: 87,
-              IPS: 79,
-              "Pend. Agama": 90,
-              SBdP: 82,
-            },
-          },
-          {
-            id: 8,
-            nama: "Elsa Puspita",
-            nis: "12345-008",
-            foto: "https://randomuser.me/api/portraits/women/8.jpg",
-            linkSurat: "#",
-            nilai: {
-              Matematika: 88,
-              "Bahasa Indonesia": 90,
-              IPA: 86,
-              IPS: 88,
-              "Pend. Agama": 91,
-              SBdP: 89,
-            },
-          },
-        ];
-      }
-
-      // Render, search, modal (fungsi sama seperti sebelumnya)
-      function getInitials(nama) {
+    }
+    
+    function getInitials(nama) {
+        if (!nama) return "?";
         let parts = nama.trim().split(/\s+/);
         if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
-        return (
-          parts[0].charAt(0) + parts[parts.length - 1].charAt(0)
-        ).toUpperCase();
-      }
-      function escapeHtml(str) {
-        if (!str) return "";
-        return str.replace(/[&<>]/g, (m) =>
-          m === "&" ? "&amp;" : m === "<" ? "&lt;" : "&gt;",
-        );
-      }
-      function renderCards(students) {
-        const resultsDiv = document.getElementById("resultsArea");
+        return (parts[0].charAt(0) + parts[parts.length-1].charAt(0)).toUpperCase();
+    }
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;');
+    }
+    
+    function renderCards(students) {
+        const resultsDiv = document.getElementById('resultsArea');
         if (!students.length) {
-          resultsDiv.innerHTML = `<div class="empty-message">😞 Tidak ada siswa yang cocok.</div>`;
-          return;
+            resultsDiv.innerHTML = `<div class="empty-message">😞 Tidak ada siswa yang cocok.</div>`;
+            return;
         }
         let html = `<div style="margin-bottom:15px;"><span style="background:#e6f0ea; padding:4px 12px; border-radius:40px;">${students.length} siswa ditemukan</span></div><div class="students-grid">`;
-        students.forEach((s) => {
-          const foto = s.foto && s.foto.trim() ? s.foto : null;
-          const initial = getInitials(s.nama);
-          html += `
+        students.forEach(s => {
+            const foto = s.foto && s.foto.trim() ? s.foto : null;
+            const initial = getInitials(s.nama);
+            html += `
                 <div class="student-card" data-id="${s.id}">
                     <div class="card-photo">
                         ${foto ? `<img src="${escapeHtml(foto)}" onerror="this.onerror=null; this.parentElement.innerText='${initial}';">` : initial}
@@ -598,67 +244,50 @@
         });
         html += `</div>`;
         resultsDiv.innerHTML = html;
-        document.querySelectorAll(".student-card").forEach((card) => {
-          card.addEventListener("click", () => {
-            const id = parseInt(card.dataset.id);
-            const student = students.find((s) => s.id === id);
-            if (student) showModal(student);
-          });
+        document.querySelectorAll('.student-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const id = parseInt(card.dataset.id);
+                const student = students.find(s => s.id === id);
+                if (student) showModal(student);
+            });
         });
-      }
-      function searchStudent() {
-        const query = document
-          .getElementById("searchInput")
-          .value.trim()
-          .toLowerCase();
+    }
+    
+    function searchStudent() {
+        const query = document.getElementById('searchInput').value.trim().toLowerCase();
         if (!query) {
-          document.getElementById("resultsArea").innerHTML =
-            `<div class="empty-message">Masukkan nama atau NIS terlebih dahulu.</div>`;
-          return;
+            document.getElementById('resultsArea').innerHTML = `<div class="empty-message">Masukkan nama atau NIS terlebih dahulu.</div>`;
+            return;
         }
         if (!studentsList.length) {
-          document.getElementById("resultsArea").innerHTML =
-            `<div class="empty-message">Data belum tersedia. Tunggu sebentar.</div>`;
-          return;
+            document.getElementById('resultsArea').innerHTML = `<div class="empty-message">Data belum tersedia. Muat ulang halaman.</div>`;
+            return;
         }
-        const filtered = studentsList.filter(
-          (s) =>
-            s.nama.toLowerCase().includes(query) ||
-            s.nis.toLowerCase().includes(query),
-        );
+        const filtered = studentsList.filter(s => s.nama.toLowerCase().includes(query) || s.nis.toLowerCase().includes(query));
         renderCards(filtered);
-      }
-      function resetSearch() {
-        document.getElementById("searchInput").value = "";
+    }
+    
+    function resetSearch() {
+        document.getElementById('searchInput').value = '';
         if (studentsList.length) {
-          document.getElementById("resultsArea").innerHTML =
-            `<div class="empty-message">🔍 Ketik nama/NIS lalu tekan Cari.</div>`;
+            document.getElementById('resultsArea').innerHTML = `<div class="empty-message">🔍 Ketik nama/NIS lalu tekan Cari.</div>`;
         } else {
-          document.getElementById("resultsArea").innerHTML =
-            `<div class="empty-message"><i class="fas fa-spinner fa-pulse"></i> Memuat data...</div>`;
+            document.getElementById('resultsArea').innerHTML = `<div class="empty-message"><i class="fas fa-spinner fa-pulse"></i> Memuat data...</div>`;
         }
-      }
-      function showModal(student) {
-        const modal = document.getElementById("detailModal");
-        const modalContent = document.getElementById("modalContent");
-        let nilaiRows = "";
+    }
+    
+    function showModal(student) {
+        const modal = document.getElementById('detailModal');
+        const modalContent = document.getElementById('modalContent');
+        let nilaiRows = '';
         for (let [mapel, nilai] of Object.entries(student.nilai)) {
-          nilaiRows += `<tr><td><strong>${escapeHtml(mapel)}</strong></td><td>${nilai}</td><td>${nilai >= 70 ? "✔️ Lulus" : "📖 Perbaikan"}</td></tr>`;
+            nilaiRows += `<tr><td><strong>${escapeHtml(mapel)}</strong></td><td>${nilai}</td><td>${nilai>=70 ? '✔️ Lulus' : '📖 Perbaikan'}</td></tr>`;
         }
-        const link =
-          student.linkSurat && student.linkSurat.trim()
-            ? student.linkSurat
-            : "#";
-        const downloadBtn =
-          link !== "#"
-            ? `<a href="${escapeHtml(link)}" target="_blank" class="download-gdrive"><i class="fab fa-google-drive"></i> Download Surat</a>`
-            : `<div class="download-gdrive" style="background:gray; cursor:default;">Link surat tidak tersedia</div>`;
-        const fotoUrl =
-          student.foto && student.foto.trim() ? student.foto : null;
+        const link = student.linkSurat && student.linkSurat.trim() ? student.linkSurat : '#';
+        const downloadBtn = link !== '#' ? `<a href="${escapeHtml(link)}" target="_blank" class="download-gdrive"><i class="fab fa-google-drive"></i> Download Surat Kelulusan</a>` : `<div class="download-gdrive" style="background:gray; cursor:default;">Link surat tidak tersedia</div>`;
+        const fotoUrl = student.foto && student.foto.trim() ? student.foto : null;
         const initial = getInitials(student.nama);
-        const photoHtml = fotoUrl
-          ? `<img src="${escapeHtml(fotoUrl)}" onerror="this.onerror=null; this.parentElement.innerText='${initial}';" style="width:100%;height:100%;object-fit:cover;">`
-          : initial;
+        const photoHtml = fotoUrl ? `<img src="${escapeHtml(fotoUrl)}" onerror="this.onerror=null; this.parentElement.innerText='${initial}';" style="width:100%;height:100%;object-fit:cover;">` : initial;
         modalContent.innerHTML = `
             <div class="modal-header">
                 <div class="modal-photo">${photoHtml}</div>
@@ -668,30 +297,19 @@
             <table class="nilai-table"><thead><tr><th>Mata Pelajaran</th><th>Nilai</th><th>Keterangan</th></tr></thead><tbody>${nilaiRows}</tbody></table>
             ${downloadBtn}
         `;
-        modal.classList.add("active");
-      }
-
-      document
-        .getElementById("searchBtn")
-        .addEventListener("click", searchStudent);
-      document
-        .getElementById("resetBtn")
-        .addEventListener("click", resetSearch);
-      document
-        .getElementById("searchInput")
-        .addEventListener("keypress", (e) => {
-          if (e.key === "Enter") searchStudent();
-        });
-      const modal = document.getElementById("detailModal");
-      const closeModal = () => modal.classList.remove("active");
-      document
-        .getElementById("closeModalBtn")
-        .addEventListener("click", closeModal);
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) closeModal();
-      });
-
-      loadData();
-    </script>
-  </body>
+        modal.classList.add('active');
+    }
+    
+    // Event listeners
+    document.getElementById('searchBtn').addEventListener('click', searchStudent);
+    document.getElementById('resetBtn').addEventListener('click', resetSearch);
+    document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') searchStudent(); });
+    const modal = document.getElementById('detailModal');
+    const closeModal = () => modal.classList.remove('active');
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    
+    loadData();
+</script>
+</body>
 </html>
