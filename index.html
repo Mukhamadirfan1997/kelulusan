@@ -107,30 +107,6 @@
         color: #1e4780;
         border: 1px solid #cbd5e1;
       }
-      .btn-reset:hover {
-        background: #e2e8f0;
-      }
-      .csv-upload {
-        background: #f8fafc;
-        border-radius: 30px;
-        padding: 0.8rem 1.5rem;
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        border: 1px dashed #2a7a3e;
-      }
-      .csv-upload label {
-        font-weight: 600;
-        color: #2c6e9e;
-      }
-      .csv-upload input {
-        background: white;
-        padding: 0.4rem;
-        border-radius: 20px;
-        border: 1px solid #ddd;
-      }
       .students-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -297,13 +273,6 @@
       </div>
 
       <div class="search-section">
-        <div class="csv-upload">
-          <label><i class="fas fa-upload"></i> Atau muat file CSV lokal:</label>
-          <input type="file" id="csvFileInput" accept=".csv" />
-          <small style="color: #4b7b5e"
-            >(Alternatif jika akses online bermasalah)</small
-          >
-        </div>
         <div class="search-wrapper">
           <div class="search-box">
             <label><i class="fas fa-user-search"></i> Cari Nama atau NIS</label>
@@ -322,13 +291,13 @@
           </button>
         </div>
         <small style="display: block; margin-top: 12px"
-          >🔍 Silahkan cari berdasarkan nama / NIS siswa</small
+          >🔍 Silahkan Cari Berdasarkan Nama / NIS Siswa.</small
         >
       </div>
 
       <div id="resultsArea">
         <div class="empty-message">
-          <i class="fas fa-spinner fa-pulse"></i> Memuat data dari server...
+          <i class="fas fa-spinner fa-pulse"></i> Memuat data...
         </div>
       </div>
 
@@ -343,15 +312,13 @@
     </div>
 
     <script>
-      // ========== KONFIGURASI ==========
-      const ORIGINAL_CSV_URL =
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vRsFesapzaEqBO-K_ppDrKDgFgDfaxNemWsmmxPRNEP6lovc6iqPzmU76ngd2Wf3xuG0CA7FXeSlrjh/pub?gid=0&single=true&output=csv";
-      const PROXY_URL = "https://corsproxy.io/?"; // proxy stabil
-      const CSV_URL = PROXY_URL + encodeURIComponent(ORIGINAL_CSV_URL);
+      // ========== 🔧 GANTI URL INI DENGAN URL APPS SCRIPT ANDA ==========
+      const CSV_URL =
+        "https://script.google.com/macros/s/AKfycbxXA9Aff_oaYFGdA9M9gPC79EPmHKlL7Jom1_xIOvNJ67D2_B8ainxzF8A02ixOo1flSQ/exec";
+      // ===================================================================
 
       let studentsList = [];
 
-      // ---------- UTILS ----------
       function parseCSVRow(rowStr) {
         const result = [];
         let inQuote = false,
@@ -369,7 +336,7 @@
 
       function parseCSVToStudents(csvText) {
         const lines = csvText.split(/\r?\n/).filter((l) => l.trim().length > 0);
-        if (lines.length < 2) throw new Error("CSV kosong atau hanya header.");
+        if (lines.length < 2) throw new Error("CSV kosong");
         const headers = lines[0]
           .split(",")
           .map((h) => h.trim().replace(/^"|"$/g, "").toLowerCase());
@@ -382,10 +349,9 @@
           (h) => h.includes("foto") || h === "photo",
         );
         if (!nameCol || !nisCol)
-          throw new Error("Kolom Nama atau NIS tidak ditemukan di CSV.");
+          throw new Error("Kolom Nama/NIS tidak ditemukan");
         const exclude = [nameCol, nisCol, linkCol, fotoCol].filter(Boolean);
         const nilaiCols = headers.filter((h) => !exclude.includes(h));
-
         const students = [];
         for (let i = 1; i < lines.length; i++) {
           const values = parseCSVRow(lines[i]);
@@ -423,102 +389,26 @@
             foto: fotoCol ? row[fotoCol] : "",
           });
         }
-        if (students.length === 0)
-          throw new Error("Tidak ada data siswa yang valid.");
+        if (students.length === 0) throw new Error("Tidak ada data siswa");
         return students;
       }
 
-      async function loadFromProxy() {
-        const response = await fetch(CSV_URL);
-        if (!response.ok)
-          throw new Error(`HTTP ${response.status} – ${response.statusText}`);
-        const text = await response.text();
-        if (!text.trim()) throw new Error("Respons kosong dari proxy.");
-        return parseCSVToStudents(text);
-      }
-
-      // Data dummy fallback
-      const DUMMY_STUDENTS = [
-        {
-          id: 1,
-          nama: "Ahmad Fauzan",
-          nis: "12345-001",
-          foto: "https://randomuser.me/api/portraits/men/1.jpg",
-          linkSurat: "#",
-          nilai: {
-            Matematika: 88,
-            "Bahasa Indonesia": 85,
-            IPA: 90,
-            IPS: 78,
-            "Pend. Agama": 92,
-            SBdP: 86,
-          },
-        },
-        {
-          id: 2,
-          nama: "Siti Nurhaliza",
-          nis: "12345-002",
-          foto: "https://randomuser.me/api/portraits/women/2.jpg",
-          linkSurat: "#",
-          nilai: {
-            Matematika: 95,
-            "Bahasa Indonesia": 91,
-            IPA: 94,
-            IPS: 88,
-            "Pend. Agama": 96,
-            SBdP: 90,
-          },
-        },
-        {
-          id: 3,
-          nama: "M. Rafa Alvaro",
-          nis: "12345-003",
-          foto: "https://randomuser.me/api/portraits/men/3.jpg",
-          linkSurat: "#",
-          nilai: {
-            Matematika: 82,
-            "Bahasa Indonesia": 78,
-            IPA: 85,
-            IPS: 80,
-            "Pend. Agama": 88,
-            SBdP: 84,
-          },
-        },
-      ];
-
-      async function loadDataFromUrl() {
+      async function loadData() {
         const resultsDiv = document.getElementById("resultsArea");
-        resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-spinner fa-pulse"></i> Mengambil data dari Google Spreadsheet via proxy...</div>`;
+        resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-spinner fa-pulse"></i> Mengambil data dari Google Spreadsheet...</div>`;
         try {
-          studentsList = await loadFromProxy();
+          const response = await fetch(CSV_URL);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const csvText = await response.text();
+          studentsList = parseCSVToStudents(csvText);
           resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-check-circle"></i> ✅ ${studentsList.length} siswa lulus. Gunakan pencarian di atas.</div>`;
         } catch (err) {
-          console.error("Proxy error:", err);
-          resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-exclamation-triangle"></i> Gagal ambil dari proxy: ${err.message}. <br> Silakan gunakan tombol "Pilih file CSV" untuk memuat file lokal.</div>`;
+          console.error(err);
+          resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-exclamation-triangle"></i> Gagal memuat data: ${err.message}.<br>Pastikan Google Apps Script sudah di-deploy dengan benar dan URL-nya sudah tepat.</div>`;
           studentsList = [];
         }
       }
 
-      function loadFromLocalFile(file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          try {
-            const csvText = e.target.result;
-            studentsList = parseCSVToStudents(csvText);
-            document.getElementById("resultsArea").innerHTML =
-              `<div class="empty-message"><i class="fas fa-check-circle"></i> ✅ ${studentsList.length} siswa dari file lokal. Gunakan pencarian.</div>`;
-          } catch (err) {
-            alert("Error parsing CSV: " + err.message);
-            studentsList = [];
-            document.getElementById("resultsArea").innerHTML =
-              `<div class="empty-message"><i class="fas fa-times-circle"></i> Gagal membaca file: ${err.message}</div>`;
-          }
-        };
-        reader.onerror = () => alert("Gagal membaca file.");
-        reader.readAsText(file, "UTF-8");
-      }
-
-      // ----- UI Rendering -----
       function getInitials(nama) {
         let parts = nama.trim().split(/\s+/);
         if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
@@ -540,7 +430,7 @@
           resultsDiv.innerHTML = `<div class="empty-message">😞 Tidak ada siswa yang cocok.</div>`;
           return;
         }
-        let html = `<div class="results-header"><span class="badge-count" style="background:#e6f0ea; padding:4px 12px; border-radius:40px;">${students.length} siswa ditemukan</span></div><div class="students-grid">`;
+        let html = `<div style="margin-bottom:15px;"><span style="background:#e6f0ea; padding:4px 12px; border-radius:40px;">${students.length} siswa ditemukan</span></div><div class="students-grid">`;
         students.forEach((s) => {
           const foto = s.foto && s.foto.trim() ? s.foto : null;
           const initial = getInitials(s.nama);
@@ -578,7 +468,7 @@
         }
         if (!studentsList.length) {
           document.getElementById("resultsArea").innerHTML =
-            `<div class="empty-message">Belum ada data. Muat file CSV terlebih dahulu (online atau lokal).</div>`;
+            `<div class="empty-message">Data belum tersedia. Tunggu hingga data selesai dimuat.</div>`;
           return;
         }
         const filtered = studentsList.filter(
@@ -596,7 +486,7 @@
             `<div class="empty-message">🔍 Ketik nama/NIS lalu tekan Cari untuk melihat hasil.</div>`;
         } else {
           document.getElementById("resultsArea").innerHTML =
-            `<div class="empty-message">Belum ada data. Klik "Coba Ambil Data Online" atau pilih file CSV.</div>`;
+            `<div class="empty-message">Memuat data... silakan tunggu sebentar.</div>`;
         }
       }
 
@@ -619,7 +509,7 @@
           student.foto && student.foto.trim() ? student.foto : null;
         const initial = getInitials(student.nama);
         const photoHtml = fotoUrl
-          ? `<img src="${escapeHtml(fotoUrl)}" onerror="this.onerror=null; this.parentElement.innerText='${initial}';">`
+          ? `<img src="${escapeHtml(fotoUrl)}" onerror="this.onerror=null; this.parentElement.innerText='${initial}';" style="width:100%;height:100%;object-fit:cover;">`
           : initial;
         modalContent.innerHTML = `
             <div class="modal-header">
@@ -637,7 +527,6 @@
         modal.classList.add("active");
       }
 
-      // Event listeners
       document
         .getElementById("searchBtn")
         .addEventListener("click", searchStudent);
@@ -657,14 +546,8 @@
       modal.addEventListener("click", (e) => {
         if (e.target === modal) closeModal();
       });
-      document
-        .getElementById("csvFileInput")
-        .addEventListener("change", (e) => {
-          if (e.target.files.length) loadFromLocalFile(e.target.files[0]);
-        });
 
-      // Mulai muat dari URL otomatis
-      loadDataFromUrl();
+      loadData();
     </script>
   </body>
 </html>
