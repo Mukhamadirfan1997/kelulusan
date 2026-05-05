@@ -81,7 +81,6 @@
     const DATA_JSON_URL = "data.json";
     let studentsList = [];
 
-    // Helper: konversi ke string aman
     function toSafeString(val) {
         if (val === undefined || val === null) return '';
         return String(val);
@@ -103,22 +102,22 @@
                 const linkSurat = item.link_surat || item.linkSurat || item.Link_Surat || item.surat || "";
                 const foto = item.foto || item.Foto || item.photo || item.PHOTO || "";
                 
+                // Ambil nilai hanya jika ada angka (kosong atau teks diabaikan)
                 const nilai = {};
                 for (let key in item) {
                     const lowerKey = key.toLowerCase();
                     if (!['nama', 'nis', 'link_surat', 'linksurat', 'foto', 'photo', 'name', 'nomor_induk', 'surat'].includes(lowerKey)) {
-                        let val = parseFloat(item[key]);
-                        if (!isNaN(val)) nilai[key] = val;
+                        let val = item[key];
+                        // Jika val adalah string kosong, null, undefined, lewati
+                        if (val !== undefined && val !== null && val !== "") {
+                            let num = parseFloat(val);
+                            if (!isNaN(num)) {
+                                nilai[key] = num;
+                            }
+                        }
                     }
                 }
-                if (Object.keys(nilai).length === 0) {
-                    nilai["Matematika"] = 75;
-                    nilai["Bahasa Indonesia"] = 75;
-                    nilai["IPA"] = 75;
-                    nilai["IPS"] = 75;
-                    nilai["Pend. Agama"] = 75;
-                    nilai["SBdP"] = 75;
-                }
+                // Tidak memberikan nilai default 75 lagi, biarkan kosong jika tidak ada data nilai
                 return { id: idx, nama: toSafeString(nama), nis, nilai, linkSurat, foto };
             }).filter(s => s.nama && s.nis);
             
@@ -188,7 +187,6 @@
             document.getElementById('resultsArea').innerHTML = `<div class="empty-message">Data belum tersedia. Muat ulang halaman.</div>`;
             return;
         }
-        // Filter dengan konversi aman ke string
         const filtered = studentsList.filter(s => {
             const namaLower = toSafeString(s.nama).toLowerCase();
             const nisLower = toSafeString(s.nis).toLowerCase();
@@ -210,8 +208,11 @@
         const modal = document.getElementById('detailModal');
         const modalContent = document.getElementById('modalContent');
         let nilaiRows = '';
-        if (student.nilai && Object.keys(student.nilai).length > 0) {
-            for (let [mapel, nilai] of Object.entries(student.nilai)) {
+        const nilaiEntries = Object.entries(student.nilai);
+        if (nilaiEntries.length === 0) {
+            nilaiRows = '<tr><td colspan="3" style="text-align:center;">📭 Tidak ada data nilai untuk siswa ini</td></tr>';
+        } else {
+            for (let [mapel, nilai] of nilaiEntries) {
                 nilaiRows += `
                     <tr>
                         <td><strong>${escapeHtml(mapel)}</strong></td>
@@ -220,8 +221,6 @@
                     </tr>
                 `;
             }
-        } else {
-            nilaiRows = '<tr><td colspan="3">Tidak ada data nilai</td></tr>';
         }
         
         const link = student.linkSurat && student.linkSurat.trim() ? student.linkSurat : '#';
