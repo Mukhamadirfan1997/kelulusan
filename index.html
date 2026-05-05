@@ -8,107 +8,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(145deg, #e8f2f7 0%, #d9e6e1 100%);
-            color: #1e293b;
-            padding: 2rem 1.5rem;
-        }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(145deg, #e8f2f7 0%, #d9e6e1 100%); color: #1e293b; padding: 2rem 1.5rem; }
         .container { max-width: 1300px; margin: 0 auto; }
         .header { text-align: center; margin-bottom: 2rem; }
-        .school-badge {
-            background: white; display: inline-flex; align-items: center; gap: 12px;
-            padding: 0.6rem 1.8rem; border-radius: 80px; margin-bottom: 1.5rem;
-            border: 1px solid #cbdff2;
-        }
+        .school-badge { background: white; display: inline-flex; align-items: center; gap: 12px; padding: 0.6rem 1.8rem; border-radius: 80px; margin-bottom: 1.5rem; border: 1px solid #cbdff2; }
         .school-badge i { font-size: 2rem; color: #2c6e9e; }
         .school-badge span { font-weight: 700; color: #0f2b4d; }
-        h1 {
-            font-size: 2.3rem; font-weight: 800;
-            background: linear-gradient(135deg, #1e3c72, #2a7a3e);
-            background-clip: text; -webkit-background-clip: text; color: transparent;
-        }
-        .search-section {
-            background: white; border-radius: 40px; padding: 1.5rem 2rem;
-            margin-bottom: 2rem; border: 1px solid #c8e0d4;
-        }
-        .search-wrapper {
-            display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end;
-        }
+        h1 { font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #1e3c72, #2a7a3e); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .subtitle { color: #2c5a2e; margin-top: 0.3rem; font-weight: 500; }
+        .search-section { background: white; border-radius: 40px; padding: 1.5rem 2rem; margin-bottom: 2rem; border: 1px solid #c8e0d4; }
+        .search-wrapper { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; }
         .search-box { flex: 3; }
-        .search-box label { font-size: 0.75rem; font-weight: 600; color: #2c6e9e; }
-        .search-box input {
-            width: 100%; padding: 0.8rem 1.2rem; border: 1.5px solid #c8e0d4;
-            border-radius: 60px; font-size: 0.9rem;
-        }
-        .btn-cari {
-            background: #2a7a3e; color: white; border: none; padding: 0.8rem 1.8rem;
-            border-radius: 60px; font-weight: 600; cursor: pointer;
-            display: inline-flex; align-items: center; gap: 8px;
-        }
+        .search-box label { font-size: 0.75rem; font-weight: 600; color: #2c6e9e; display: block; margin-bottom: 6px; }
+        .search-box input { width: 100%; padding: 0.8rem 1.2rem; border: 1.5px solid #c8e0d4; border-radius: 60px; font-size: 0.9rem; }
+        .btn-cari { background: #2a7a3e; color: white; border: none; padding: 0.8rem 1.8rem; border-radius: 60px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
         .btn-cari:hover { background: #1f5f30; transform: translateY(-2px); }
         .btn-reset { background: #f1f5f9; color: #1e4780; border: 1px solid #cbd5e1; }
-        .students-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.8rem; margin-top: 1rem;
-        }
-        .student-card {
-            background: white; border-radius: 28px; padding: 1.3rem;
-            cursor: pointer; transition: 0.2s; border: 1px solid #c8e0d4;
-        }
+        .students-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.8rem; margin-top: 1rem; }
+        .student-card { background: white; border-radius: 28px; padding: 1.3rem; cursor: pointer; transition: 0.2s; border: 1px solid #c8e0d4; }
         .student-card:hover { transform: translateY(-5px); box-shadow: 0 12px 20px -10px rgba(0,0,0,0.1); }
-        .card-photo {
-            width: 70px; height: 70px; border-radius: 50%;
-            background: #e6f0ea; display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; font-weight: 700; color: #2c6e9e; margin-bottom: 1rem;
-            overflow: hidden;
-        }
+        .card-photo { width: 70px; height: 70px; border-radius: 50%; background: #e6f0ea; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 700; color: #2c6e9e; margin-bottom: 1rem; overflow: hidden; }
         .card-photo img { width: 100%; height: 100%; object-fit: cover; }
         .card-name { font-size: 1.3rem; font-weight: 700; color: #0f2b4d; }
-        .lulus-badge {
-            background: #dcfce7; color: #15803d; display: inline-block;
-            padding: 0.2rem 1rem; border-radius: 40px; font-size: 0.7rem; font-weight: 600;
-            margin-top: 0.5rem;
-        }
-        .empty-message {
-            background: #f8fafc; text-align: center; padding: 2rem;
-            border-radius: 48px; color: #2c6e9e; border: 1px dashed #c8e0d4;
-        }
-        .modal-overlay {
-            position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
-            display: flex; align-items: center; justify-content: center;
-            visibility: hidden; opacity: 0; transition: 0.2s; z-index: 1000;
-        }
+        .lulus-badge { background: #dcfce7; color: #15803d; display: inline-block; padding: 0.2rem 1rem; border-radius: 40px; font-size: 0.7rem; font-weight: 600; margin-top: 0.5rem; }
+        .empty-message { background: #f8fafc; text-align: center; padding: 2rem; border-radius: 48px; color: #2c6e9e; border: 1px dashed #c8e0d4; }
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; visibility: hidden; opacity: 0; transition: 0.2s; z-index: 1000; }
         .modal-overlay.active { visibility: visible; opacity: 1; }
-        .modal-container {
-            background: white; max-width: 700px; width: 90%; max-height: 85vh;
-            overflow-y: auto; border-radius: 2rem; padding: 1.5rem;
-            border-top: 6px solid #2a7a3e; position: relative;
-        }
-        .modal-close {
-            position: absolute; right: 1.2rem; top: 1rem; font-size: 1.8rem;
-            cursor: pointer; color: #888;
-        }
+        .modal-container { background: white; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; border-radius: 2rem; padding: 1.5rem; border-top: 6px solid #2a7a3e; position: relative; }
+        .modal-close { position: absolute; right: 1.2rem; top: 1rem; font-size: 1.8rem; cursor: pointer; color: #888; }
         .modal-header { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
-        .modal-photo {
-            width: 80px; height: 80px; border-radius: 50%; background: #e2edf7;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; font-weight: bold; overflow: hidden;
-        }
-        .nilai-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-        .nilai-table th, .nilai-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #ddd; }
-        .download-gdrive {
-            display: inline-block; background: #2c6e9e; color: white;
-            padding: 0.6rem 1.2rem; border-radius: 40px; text-decoration: none;
-            margin-top: 1rem; font-weight: 600;
-        }
-        footer { margin-top: 3rem; text-align: center; border-top: 1px solid #c8e0d4; padding-top: 2rem; font-size: 0.75rem; }
+        .modal-photo { width: 80px; height: 80px; border-radius: 50%; background: #e2edf7; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; overflow: hidden; }
+        .nilai-table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: #f9fbfd; border-radius: 16px; overflow: hidden; }
+        .nilai-table th, .nilai-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e2edf2; }
+        .nilai-table th { background: #eef3fc; font-weight: 600; }
+        .download-gdrive { display: inline-block; background: #2c6e9e; color: white; padding: 0.6rem 1.2rem; border-radius: 40px; text-decoration: none; margin-top: 1rem; font-weight: 600; }
+        footer { margin-top: 3rem; text-align: center; border-top: 1px solid #c8e0d4; padding-top: 2rem; font-size: 0.75rem; color: #4b7b5e; }
         @media (max-width: 640px) { body { padding: 1rem; } .search-wrapper { flex-direction: column; } }
-        .info-banner {
-            background: #e0f2fe; padding: 12px 16px; border-radius: 30px; margin-top: 12px;
-            font-size: 0.8rem; text-align: center; color: #0369a1;
-        }
+        .info-banner { background: #e0f2fe; padding: 10px 16px; border-radius: 30px; margin-top: 12px; font-size: 0.8rem; text-align: center; color: #0369a1; }
     </style>
 </head>
 <body>
@@ -118,7 +54,6 @@
         <h1>Pengumuman Kelulusan</h1>
         <div class="subtitle">Tahun Pelajaran 2024/2025 | Kelas VI</div>
     </div>
-
     <div class="search-section">
         <div class="search-wrapper">
             <div class="search-box">
@@ -128,18 +63,13 @@
             <button id="searchBtn" class="btn-cari"><i class="fas fa-search"></i> Cari</button>
             <button id="resetBtn" class="btn-cari btn-reset"><i class="fas fa-undo-alt"></i> Reset</button>
         </div>
-        <div class="info-banner">
-            <i class="fas fa-database"></i> Data kelulusan diperbarui secara berkala.
-        </div>
+        <div class="info-banner"><i class="fas fa-database"></i> Data kelulusan diperbarui secara berkala.</div>
     </div>
-
     <div id="resultsArea">
         <div class="empty-message"><i class="fas fa-spinner fa-pulse"></i> Memuat data kelulusan...</div>
     </div>
-
     <footer>Data kelulusan resmi SDN Toyaning I Rejoso</footer>
 </div>
-
 <div id="detailModal" class="modal-overlay">
     <div class="modal-container">
         <div class="modal-close" id="closeModalBtn">&times;</div>
@@ -148,14 +78,15 @@
 </div>
 
 <script>
-    // ======================= KONFIGURASI =======================
-    // Gunakan file JSON statis (anda buat dari CSV spreadsheet)
-    // Cara: buka spreadsheet, File -> Download -> CSV, lalu konversi ke JSON (gunakan tool online)
-    // Simpan file sebagai "data.json" di folder yang sama dengan index.html
-    const DATA_JSON_URL = "data.json";  // file JSON lokal di hosting
-    
+    const DATA_JSON_URL = "data.json";
     let studentsList = [];
-    
+
+    // Helper: konversi nilai ke string untuk toLowerCase
+    function toSafeString(val) {
+        if (val === undefined || val === null) return '';
+        return String(val);
+    }
+
     async function loadData() {
         const resultsDiv = document.getElementById('resultsArea');
         resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-spinner fa-pulse"></i> Mengambil data kelulusan...</div>`;
@@ -163,18 +94,18 @@
             const response = await fetch(DATA_JSON_URL);
             if (!response.ok) throw new Error(`HTTP ${response.status} - file data.json tidak ditemukan`);
             const data = await response.json();
-            
-            // Transformasi data dari JSON ke format internal
             if (!Array.isArray(data) || data.length === 0) throw new Error("Data kosong");
             
             studentsList = data.map((item, idx) => {
-                // Deteksi kolom nama (case insensitive)
+                // Ambil nama dan nis (case insensitive)
                 const nama = item.nama || item.Nama || item.name || item.NAMA || "";
-                const nis = item.nis || item.NIS || item.nomor_induk || item.NomorInduk || "";
+                let nis = item.nis || item.NIS || item.nomor_induk || item.NomorInduk || "";
+                // Pastikan nis berupa string
+                nis = toSafeString(nis);
                 const linkSurat = item.link_surat || item.linkSurat || item.Link_Surat || item.surat || "";
                 const foto = item.foto || item.Foto || item.photo || item.PHOTO || "";
                 
-                // Kolom nilai: semua kecuali yang sudah ditentukan
+                // Nilai pelajaran: semua field selain nama, nis, link, foto
                 const nilai = {};
                 for (let key in item) {
                     const lowerKey = key.toLowerCase();
@@ -191,36 +122,33 @@
                     nilai["Pend. Agama"] = 75;
                     nilai["SBdP"] = 75;
                 }
-                return { id: idx, nama, nis, nilai, linkSurat, foto };
+                return { id: idx, nama: toSafeString(nama), nis, nilai, linkSurat, foto };
             }).filter(s => s.nama && s.nis);
             
             if (studentsList.length === 0) throw new Error("Tidak ada data siswa valid");
-            
             resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-check-circle"></i> ✅ ${studentsList.length} siswa lulus. Gunakan pencarian di atas.</div>`;
         } catch (err) {
-            console.error("Gagal load data.json:", err);
-            resultsDiv.innerHTML = `<div class="empty-message">
-                <i class="fas fa-exclamation-triangle"></i> Gagal memuat data: ${err.message}<br><br>
-                <strong>📌 Petunjuk:</strong> Buat file <code>data.json</code> dari spreadsheet Anda.<br>
-                Cara: Buka spreadsheet → File → Download → CSV → lalu konversi CSV ke JSON (gunakan <a href="https://csvjson.com/" target="_blank">csvjson.com</a>)<br>
-                Simpan hasilnya sebagai <code>data.json</code> di folder yang sama dengan halaman ini.
-            </div>`;
+            console.error(err);
+            resultsDiv.innerHTML = `<div class="empty-message"><i class="fas fa-exclamation-triangle"></i> Gagal memuat data: ${err.message}<br><br>
+            📌 <strong>Petunjuk:</strong> Buat file <code>data.json</code> dari spreadsheet Anda.<br>
+            Cara: Buka spreadsheet → File → Download → CSV → konversi ke JSON (gunakan <a href="https://csvjson.com/" target="_blank">csvjson.com</a>)<br>
+            Simpan hasilnya sebagai <code>data.json</code> di folder yang sama dengan halaman ini.</div>`;
             studentsList = [];
         }
     }
-    
+
     function getInitials(nama) {
         if (!nama) return "?";
         let parts = nama.trim().split(/\s+/);
         if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
         return (parts[0].charAt(0) + parts[parts.length-1].charAt(0)).toUpperCase();
     }
-    
+
     function escapeHtml(str) {
         if (!str) return '';
         return str.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;');
     }
-    
+
     function renderCards(students) {
         const resultsDiv = document.getElementById('resultsArea');
         if (!students.length) {
@@ -252,7 +180,7 @@
             });
         });
     }
-    
+
     function searchStudent() {
         const query = document.getElementById('searchInput').value.trim().toLowerCase();
         if (!query) {
@@ -263,10 +191,15 @@
             document.getElementById('resultsArea').innerHTML = `<div class="empty-message">Data belum tersedia. Muat ulang halaman.</div>`;
             return;
         }
-        const filtered = studentsList.filter(s => s.nama.toLowerCase().includes(query) || s.nis.toLowerCase().includes(query));
+        // Pastikan setiap siswa memiliki nama dan nis string
+        const filtered = studentsList.filter(s => {
+            const namaLower = toSafeString(s.nama).toLowerCase();
+            const nisLower = toSafeString(s.nis).toLowerCase();
+            return namaLower.includes(query) || nisLower.includes(query);
+        });
         renderCards(filtered);
     }
-    
+
     function resetSearch() {
         document.getElementById('searchInput').value = '';
         if (studentsList.length) {
@@ -275,40 +208,72 @@
             document.getElementById('resultsArea').innerHTML = `<div class="empty-message"><i class="fas fa-spinner fa-pulse"></i> Memuat data...</div>`;
         }
     }
-    
+
     function showModal(student) {
         const modal = document.getElementById('detailModal');
         const modalContent = document.getElementById('modalContent');
         let nilaiRows = '';
-        for (let [mapel, nilai] of Object.entries(student.nilai)) {
-            nilaiRows += `<tr><td><strong>${escapeHtml(mapel)}</strong></td><td>${nilai}</td><td>${nilai>=70 ? '✔️ Lulus' : '📖 Perbaikan'}</td></tr>`;
+        if (student.nilai && Object.keys(student.nilai).length > 0) {
+            for (let [mapel, nilai] of Object.entries(student.nilai)) {
+                nilaiRows += `
+                    <tr>
+                        <td><strong>${escapeHtml(mapel)}</strong></td>
+                        <td>${nilai}</td>
+                        <td>${nilai >= 70 ? '<span style="color:#15803d;">✔️ Lulus</span>' : '<span style="color:#b91c1c;">📖 Perbaikan</span>'}</td>
+                    </tr>
+                `;
+            }
+        } else {
+            nilaiRows = '<tr><td colspan="3">Tidak ada data nilai</td></tr>';
         }
+        
         const link = student.linkSurat && student.linkSurat.trim() ? student.linkSurat : '#';
-        const downloadBtn = link !== '#' ? `<a href="${escapeHtml(link)}" target="_blank" class="download-gdrive"><i class="fab fa-google-drive"></i> Download Surat Kelulusan</a>` : `<div class="download-gdrive" style="background:gray; cursor:default;">Link surat tidak tersedia</div>`;
+        const downloadBtn = link !== '#' 
+            ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer" class="download-gdrive"><i class="fab fa-google-drive"></i> Download Surat Kelulusan</a>`
+            : `<div class="download-gdrive" style="background:gray; cursor:default;">Link surat tidak tersedia</div>`;
+        
         const fotoUrl = student.foto && student.foto.trim() ? student.foto : null;
         const initial = getInitials(student.nama);
-        const photoHtml = fotoUrl ? `<img src="${escapeHtml(fotoUrl)}" onerror="this.onerror=null; this.parentElement.innerText='${initial}';" style="width:100%;height:100%;object-fit:cover;">` : initial;
+        const photoHtml = fotoUrl 
+            ? `<img src="${escapeHtml(fotoUrl)}" onerror="this.onerror=null; this.parentElement.innerText='${initial}';" style="width:100%;height:100%;object-fit:cover;">`
+            : initial;
+        
         modalContent.innerHTML = `
             <div class="modal-header">
                 <div class="modal-photo">${photoHtml}</div>
-                <div><h2>${escapeHtml(student.nama)}</h2><p>NIS: ${escapeHtml(student.nis)}</p><span class="lulus-badge">LULUS</span></div>
+                <div>
+                    <h2>${escapeHtml(student.nama)}</h2>
+                    <p>NIS: ${escapeHtml(student.nis)}</p>
+                    <span class="lulus-badge"><i class="fas fa-trophy"></i> LULUS</span>
+                </div>
             </div>
-            <h3>Nilai Ujian</h3>
-            <table class="nilai-table"><thead><tr><th>Mata Pelajaran</th><th>Nilai</th><th>Keterangan</th></tr></thead><tbody>${nilaiRows}</tbody></table>
-            ${downloadBtn}
+            <h3 style="margin: 18px 0 8px;"><i class="fas fa-chart-line"></i> Nilai Ujian</h3>
+            <table class="nilai-table">
+                <thead>
+                    <tr><th>Mata Pelajaran</th><th>Nilai</th><th>Keterangan</th></tr>
+                </thead>
+                <tbody>${nilaiRows}</tbody>
+            </table>
+            <div style="margin-top: 20px;">
+                ${downloadBtn}
+                <div style="font-size:0.7rem; margin-top: 8px;"><i class="fas fa-envelope"></i> Surat resmi diunduh melalui tautan Google Drive.</div>
+            </div>
         `;
         modal.classList.add('active');
     }
-    
+
     // Event listeners
     document.getElementById('searchBtn').addEventListener('click', searchStudent);
     document.getElementById('resetBtn').addEventListener('click', resetSearch);
-    document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') searchStudent(); });
+    document.getElementById('searchInput').addEventListener('keypress', e => {
+        if (e.key === 'Enter') searchStudent();
+    });
     const modal = document.getElementById('detailModal');
     const closeModal = () => modal.classList.remove('active');
     document.getElementById('closeModalBtn').addEventListener('click', closeModal);
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-    
+
+    // Mulai
     loadData();
 </script>
 </body>
